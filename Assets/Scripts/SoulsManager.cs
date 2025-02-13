@@ -6,7 +6,7 @@ public class SoulsManager : MonoBehaviour
     [SerializeField] private List<Soul> soulList = new List<Soul>();
     [SerializeField] private int dailyFoodChange = 0;
     [SerializeField] GameObject soulsUICanvasPrefab;
-    
+
     private SoulsUI soulsUI;
 
     private int startingSouls = 50;
@@ -27,15 +27,19 @@ public class SoulsManager : MonoBehaviour
             soulList.Add(newSoul);
         }
 
-        GetShipDailyFoodChange();
+        GetDailyFoodChange();
 
         GameObject soulsUICanvasInstance = GameObject.Instantiate(soulsUICanvasPrefab);
         soulsUI = soulsUICanvasInstance.GetComponent<SoulsUI>();
         soulsUI.UpdateSoulsUI(soulList);
     }
 
-
-    int GetShipDailyFoodChange()
+    public int GetTotalSouls()
+    {
+        int totalSouls = soulList.Count;
+        return totalSouls;
+    }
+    public int GetDailyFoodChange()
     {
         int totalFoodConsumption = 0;
         foreach (Soul soul in soulList)
@@ -44,5 +48,20 @@ public class SoulsManager : MonoBehaviour
         }
         dailyFoodChange = totalFoodConsumption;
         return totalFoodConsumption;
+    }
+
+    public int[] GetFoodConsumptionArray()
+    {
+        int[] foodComsumptionArray = new int[soulList.Count];
+        for(int i = 0; i < soulList.Count; i++)
+        {
+            foodComsumptionArray[i] = soulList[i].dailyFoodChange;
+        }
+        return foodComsumptionArray;
+    }
+
+    public int GetAmountOfSouls()
+    {
+        return soulList.Count;
     }
 }

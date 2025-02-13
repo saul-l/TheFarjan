@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BasicPassenger
   m_EditorClassIdentifier: 
   crewMemberStatus: 0
-  dailyFoodChange: -1
+  dailyFoodChange: -10
   dailyJoyChange: -1
   dailyOrderChange: 0
   dailySuppliesChange: 0

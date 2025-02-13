@@ -11,17 +11,16 @@ public enum ShipSectionState
 }
 public class ShipSection : MonoBehaviour
 {
-    [SerializeField] private ShipSectionState shipSectionState = ShipSectionState.enabled;
-    
-    private ShipResourceManager shipResourceManager = null;
-    private SoulsManager soulsManager = null;
+    [SerializeField] protected ShipSectionState shipSectionState = ShipSectionState.enabled;
 
-    [SerializeField] private ResourceType consumedResourceType;
-    [SerializeField] private float consumptionRate = 1.0f;
-    [SerializeField] private int consumptionAmount = 1;
+    protected ShipResourceManager shipResourceManager = null;
+    protected SoulsManager soulsManager = null;
 
-    [SerializeField] private bool enableRequest = false;
-    private float nextTickTime = 0f;
+    [SerializeField] protected ResourceType consumedResourceType;
+    [SerializeField] protected float consumptionRate = 1.0f;
+    [SerializeField] protected int consumptionAmount = 10;
+    [SerializeField] protected bool enableRequest = false;
+    protected float nextTickTime = 0f;
 
     void Start()
     {
@@ -88,7 +87,7 @@ public class ShipSection : MonoBehaviour
 
     }
 
-    ShipSectionState EnabledState()
+    virtual public ShipSectionState EnabledState()
     {
         bool resourcesAvailable = true;
         if (Globals.gameTime >= nextTickTime)
