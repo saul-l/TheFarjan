@@ -8,6 +8,7 @@ public class SoulsManager : MonoBehaviour
     [SerializeField] GameObject soulsUICanvasPrefab;
 
     private SoulsUI soulsUI;
+    private Canvas soulsCanvas;
 
     private int startingSouls = 50;
 
@@ -31,6 +32,7 @@ public class SoulsManager : MonoBehaviour
 
         GameObject soulsUICanvasInstance = GameObject.Instantiate(soulsUICanvasPrefab);
         soulsUI = soulsUICanvasInstance.GetComponent<SoulsUI>();
+        soulsCanvas = soulsUICanvasInstance.GetComponent<Canvas>();
         soulsUI.UpdateSoulsUI(soulList);
     }
 

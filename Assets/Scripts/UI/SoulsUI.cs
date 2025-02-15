@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoulsUI : MonoBehaviour
 {
     [SerializeField] GameObject scrollViewContent;
     [SerializeField] GameObject soulPanelPrefab;
+    [SerializeField] Button closeButton;
+
     GameObject[] soulPanelInstances = new GameObject[0];
     Canvas canvas;
 
@@ -17,7 +20,11 @@ public class SoulsUI : MonoBehaviour
 
     void Start()
     {
+        UIManagerSingleton.instance.Test();
         canvas = GetComponent<Canvas>();
+        canvas.enabled = false;
+        closeButton.onClick.AddListener(UIManagerSingleton.instance.ToggleSoulsCanvas);
+        UIManagerSingleton.instance.soulsCanvas = canvas;
     }
 
     // Update is called once per frame
@@ -57,11 +64,5 @@ public class SoulsUI : MonoBehaviour
         Debug.Log("sizedelta " + scrollViewContentRT.sizeDelta);
         scrollViewContentRT.sizeDelta = new Vector2(scrollViewContentRT.sizeDelta.x, scrollViewContentStartHeight + panelYSeparation * -yOff);
         Debug.Log("sizedelta " + scrollViewContentRT.sizeDelta);
-    }
-
-    public void ToggleVisibility(bool visibility)
-    {        
-        canvas.enabled = visibility;
-    }
-    
+    }    
 }
