@@ -18,8 +18,12 @@ public class ShipResourceManager : MonoBehaviour
     [SerializeField] GameObject shipResourceManagerUIPrefab;
     private ShipResourceManagerUI shipResourceManagerUI;
 
-    // Currently used only for UI, but there is option to micro-optimize here with constant resource consumption rate
+    // For calculating hourly consumption
+    private SoulsManager soulsManager;
+    private float previousFuelAmount;
+    private float previousSuppliesAmount;
 
+    // Currently used only for UI, but there is option to micro-optimize here with constant resource consumption rate
     private float fuelAmount;
     private float foodAmount;
     private float suppliesAmount;
@@ -38,6 +42,8 @@ public class ShipResourceManager : MonoBehaviour
             Debug.Log("shipResourceManagerUIPrefab required!");
             gameObject.SetActive(false);
         }
+
+        soulsManager = GetComponent<SoulsManager>();
     }
     private void Update()
     {
@@ -72,7 +78,14 @@ public class ShipResourceManager : MonoBehaviour
                 }
             }
 
-        shipResourceManagerUI.UpdateUI(fuelAmount, foodAmount, suppliesAmount, joyAmount, orderAmount);
+            float hourlyFuelUse = Globals.dayInSeconds * (previousFuelAmount - fuelAmount)/updateRate;
+            float hourlySuppliesUse = Globals.dayInSeconds * (previousSuppliesAmount - fuelAmount) / updateRate;
+            float hourlyFoodUse = soulsManager.GetDailyFoodChange() / 24f;
+            shipResourceManagerUI.UpdateUI(fuelAmount,hourlyFuelUse, foodAmount, hourlyFoodUse, suppliesAmount, hourlySuppliesUse, joyAmount, orderAmount);
+
+            previousFuelAmount = fuelAmount;
+            previousSuppliesAmount = suppliesAmount;
+        
         }
     }
     public void addResource(ShipResource shipResource, int amount)

@@ -15,7 +15,9 @@ public class Globals : MonoBehaviour
     private float prevTime;
     public delegate void DayChange();
     public static DayChange dayChange;
-
+    public static string dayString;
+    private string hoursString;
+    private string minutesString;
     // 1 game minute = 1 second, 1 game day = 1440 seconds, 1 game hour = 60 seconds
     void Start()
     {
@@ -35,5 +37,18 @@ public class Globals : MonoBehaviour
             dayChange?.Invoke();
 
         prevGameDays = currentGameDays;
+
+
+        if (currentGameHours < 10)
+            hoursString = "0" + currentGameHours;
+        else
+            hoursString = currentGameHours.ToString();
+
+        if (currentMinutes < 10)
+            minutesString = "0" + currentMinutes;
+        else
+            minutesString = currentMinutes.ToString();
+
+        dayString = "Day: " + (currentGameDays + 1.0) + " Time: " + hoursString + ":" + minutesString;
     }
 }

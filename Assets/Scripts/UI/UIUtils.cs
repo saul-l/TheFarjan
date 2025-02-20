@@ -8,4 +8,8 @@ public static class UIUtils
         amount /= 10;
         return amount.ToString("F1", CultureInfo.InvariantCulture);
     }
+    public static string SingleDigit(float amount)
+    {
+        return amount.ToString("F1", CultureInfo.InvariantCulture);
+    }
 }
