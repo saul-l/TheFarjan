@@ -21,7 +21,7 @@ public class BuffetShipSection : ShipSection
         if (Globals.instance.gameTime >= nextTickTime && !Globals.instance.paused)
         {
             nextTickTime += consumptionRate;
-            resourcesAvailable = shipResourceManager.useResource(consumedResourceType, -foodConsumptionArray[CFAIndex]);
+            resourcesAvailable = shipResourceManager.UseResource(consumedResourceType, -foodConsumptionArray[CFAIndex]);
             CFAIndex++;
             if (CFAIndex > foodConsumptionArray.Length)
                 CFAIndex = 0;            
@@ -34,7 +34,7 @@ public class BuffetShipSection : ShipSection
 
     void Embark()
     {
-        consumptionRate = Globals.dayInSeconds / soulsManager.GetTotalSouls();
+        consumptionRate = Globals.dayInMinutes / soulsManager.GetTotalSouls();
         foodConsumptionArray = soulsManager.GetFoodConsumptionArray();
         CFAIndex = 0;
     }

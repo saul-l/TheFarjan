@@ -663,12 +663,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d36658b21f331ab4f9f89272e27bb933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shipResourceList: []
+  shipResourceAmountList: 
+  updateRate: 0.1
   fuelText: {fileID: 2256707684749155951}
   foodText: {fileID: 6603262682909929959}
   suppliesText: {fileID: 8613202452516805032}
   joyText: {fileID: 658241578681740524}
   orderText: {fileID: 4183788341046200671}
   timeText: {fileID: 7751389000636660468}
+  shipResourceManager: {fileID: 0}
+  soulsManager: {fileID: 0}
 --- !u!1 &3867229833957020353
 GameObject:
   m_ObjectHideFlags: 0

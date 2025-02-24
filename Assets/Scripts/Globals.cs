@@ -17,7 +17,7 @@ public class Globals : MonoBehaviour
 
     private float prevGameDays = -1;
 
-    public const float dayInSeconds = 1440f;
+    public const float dayInMinutes = 1440f;
     private float prevTime;
     public delegate void DayChangeDelegate();
     public DayChangeDelegate dayChangeDelegate;
@@ -63,7 +63,7 @@ public class Globals : MonoBehaviour
         gameTime += (Time.time-prevTime)*gameSpeed;
         prevTime = Time.time;
         currentGameTime = gameTime;
-        currentGameDays = Mathf.Floor(gameTime / dayInSeconds);
+        currentGameDays = Mathf.Floor(gameTime / dayInMinutes);
         currentGameHours = Mathf.Floor((gameTime/60)%24);
         currentMinutes = Mathf.Floor(gameTime % 60);
 

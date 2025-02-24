@@ -13,7 +13,7 @@ public class ShipSection : MonoBehaviour
 {
     [SerializeField] protected ShipSectionState shipSectionState = ShipSectionState.enabled;
 
-    protected ShipResourceManager shipResourceManager = null;
+    [SerializeField] protected ShipResourceManager shipResourceManager = null;
     protected SoulsManager soulsManager = null;
 
     [SerializeField] protected ResourceType consumedResourceType;
@@ -31,7 +31,6 @@ public class ShipSection : MonoBehaviour
             Debug.Log("No SoulsManager found in parent!");
         }
 
-        shipResourceManager = GetComponentInParent<ShipResourceManager>();
         if (shipResourceManager == null )
         {
             gameObject.SetActive(false);
@@ -65,7 +64,7 @@ public class ShipSection : MonoBehaviour
 
     ShipSectionState DisabledState()
     {
-        if (enableRequest && shipResourceManager.checkResourceAvailability(consumedResourceType, consumptionAmount))
+        if (enableRequest && shipResourceManager.CheckResourceAvailability(consumedResourceType, consumptionAmount))
         {
             enableRequest = false;
             nextTickTime = Globals.instance.gameTime + consumptionRate;
@@ -80,7 +79,7 @@ public class ShipSection : MonoBehaviour
         if (Globals.instance.gameTime >= nextTickTime)
         {
             nextTickTime += consumptionRate;
-            resourcesAvailable = shipResourceManager.useResource(consumedResourceType, consumptionAmount);
+            resourcesAvailable = shipResourceManager.UseResource(consumedResourceType, consumptionAmount);
         }
         if (resourcesAvailable)
             return ShipSectionState.enabled;
@@ -95,7 +94,7 @@ public class ShipSection : MonoBehaviour
         if (Globals.instance.gameTime >= nextTickTime)
         {
             nextTickTime += consumptionRate;
-            resourcesAvailable = shipResourceManager.useResource(consumedResourceType, consumptionAmount);                      
+            resourcesAvailable = shipResourceManager.UseResource(consumedResourceType, consumptionAmount);                      
         }
         if (resourcesAvailable)
             return ShipSectionState.enabled;

@@ -70,8 +70,8 @@ public class ShipResourceManagerUI : MonoBehaviour
                 }
             }
 
-            float hourlyFuelUse = Globals.dayInSeconds * (previousFuelAmount - fuelAmount) / updateRate;
-            float hourlySuppliesUse = Globals.dayInSeconds * (previousSuppliesAmount - fuelAmount) / updateRate;
+            float hourlyFuelUse = Globals.dayInMinutes * (previousFuelAmount - fuelAmount) / updateRate;
+            float hourlySuppliesUse = Globals.dayInMinutes * (previousSuppliesAmount - fuelAmount) / updateRate;
             float hourlyFoodUse = soulsManager.GetDailyFoodChange() / 24f;
             UpdateUI(fuelAmount, hourlyFuelUse, foodAmount, hourlyFoodUse, suppliesAmount, hourlySuppliesUse, joyAmount, orderAmount);
 
