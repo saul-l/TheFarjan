@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 107be6609603eed45a48ff936b290425, type: 3}
   m_Name: BasicSupplies
   m_EditorClassIdentifier: 
-  resourceName: 
-  description: 
+  resourceName: Basic supplies
+  description: Consumed by ship inhabitans
   resourceType: 3

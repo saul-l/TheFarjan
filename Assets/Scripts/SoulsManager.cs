@@ -11,22 +11,13 @@ public class SoulsManager : MonoBehaviour
     private Canvas soulsCanvas;
 
     private int startingSouls = 50;
-
+    private SoulNames soulNames = new SoulNames();
     void Start()
     {
-         SoulNames soulNames = new SoulNames();
+
         // Create 5 crewmembers and 45 passengers at start of the game
-        for(int i = 0; i< startingSouls;i++)
-        { 
-            Soul newSoul = new Soul();
 
-            if(Random.Range(0, 2) == 0)
-                newSoul.soulName = soulNames.finnishFirstNames[Random.Range(0, soulNames.finnishFirstNames.Length)] + " " + soulNames.finnishSurnames[Random.Range(0, soulNames.finnishSurnames.Length)];
-            else
-                newSoul.soulName = soulNames.swedishFirstNames[Random.Range(0, soulNames.swedishFirstNames.Length)] + " " + soulNames.swedishSurnames[Random.Range(0, soulNames.swedishSurnames.Length)];
-
-            soulList.Add(newSoul);
-        }
+        soulList = GenerateSouls(0, startingSouls);
 
         GetDailyFoodChange();
 
@@ -36,6 +27,30 @@ public class SoulsManager : MonoBehaviour
         soulsUI.UpdateSoulsUI(soulList);
     }
 
+    public List<Soul> GenerateSouls(int crew, int passengers)
+    {
+        List<Soul> generatedSouls = new List<Soul>();
+        for (int i = 0; i < startingSouls; i++)
+        {
+            Soul newSoul = new Soul();
+
+            if (Random.Range(0, 2) == 0)
+                newSoul.soulName = soulNames.finnishFirstNames[Random.Range(0, soulNames.finnishFirstNames.Length)] + " " + soulNames.finnishSurnames[Random.Range(0, soulNames.finnishSurnames.Length)];
+            else
+                newSoul.soulName = soulNames.swedishFirstNames[Random.Range(0, soulNames.swedishFirstNames.Length)] + " " + soulNames.swedishSurnames[Random.Range(0, soulNames.swedishSurnames.Length)];
+
+            generatedSouls.Add(newSoul);
+        }
+        return generatedSouls;
+    }
+
+    public void SetSoulList(List<Soul> sList)
+    {
+        soulList.Clear();
+        soulList = sList;
+        GetDailyFoodChange();
+        soulsUI.UpdateSoulsUI(soulList);
+    }
     public int GetTotalSouls()
     {
         int totalSouls = soulList.Count;

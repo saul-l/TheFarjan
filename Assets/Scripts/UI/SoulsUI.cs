@@ -20,14 +20,12 @@ public class SoulsUI : MonoBehaviour
 
     void Start()
     {
-        UIManagerSingleton.instance.Test();
         canvas = GetComponent<Canvas>();
         canvas.enabled = false;
         closeButton.onClick.AddListener(UIManagerSingleton.instance.ToggleSoulsCanvas);
         UIManagerSingleton.instance.soulsCanvas = canvas;
     }
 
-    // Update is called once per frame
     public void UpdateSoulsUI(List<Soul> soulList)
     {
         for (int i = 0; i < soulPanelInstances.Length; i++)
@@ -61,8 +59,6 @@ public class SoulsUI : MonoBehaviour
         }
 
         RectTransform scrollViewContentRT = scrollViewContent.GetComponent<RectTransform>();
-        Debug.Log("sizedelta " + scrollViewContentRT.sizeDelta);
         scrollViewContentRT.sizeDelta = new Vector2(scrollViewContentRT.sizeDelta.x, scrollViewContentStartHeight + panelYSeparation * -yOff);
-        Debug.Log("sizedelta " + scrollViewContentRT.sizeDelta);
     }    
 }

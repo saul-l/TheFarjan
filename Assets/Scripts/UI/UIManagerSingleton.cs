@@ -7,6 +7,7 @@ public class UIManagerSingleton : MonoBehaviour
     public Canvas shipCanvas;
     public Canvas soulsCanvas;
     public Canvas shipSectionBuffetCanvas;
+    public Canvas portCanvas;
     void Awake()
     {
         if (instance != null && instance != this)
@@ -21,10 +22,6 @@ public class UIManagerSingleton : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void Test()
-    {
-        Debug.Log("It's a me!"); ;
-    }
     public void ToggleShipCanvas()
     { 
         shipCanvas.enabled = !shipCanvas.enabled;
@@ -36,6 +33,11 @@ public class UIManagerSingleton : MonoBehaviour
     public void ToggleShipSectionBuffetCanvas()
     {
         shipSectionBuffetCanvas.enabled = !shipSectionBuffetCanvas.enabled;
+    }
+
+    public void TogglePortCanvas()
+    {
+        portCanvas.enabled = !portCanvas.enabled;
     }
     
 }

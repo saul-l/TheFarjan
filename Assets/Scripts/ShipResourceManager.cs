@@ -9,95 +9,20 @@ using UnityEngine;
 
 public class ShipResourceManager : MonoBehaviour
 {
-    [SerializeField] float updateRate = 0.1f;
-    float nextTime = 0f;
+
     // Basic resources
-    private Dictionary<ShipResource, int> shipResources = new Dictionary<ShipResource, int>();
-    [SerializeField] List<ShipResource> shipResourceList = new List<ShipResource>();
-    [SerializeField] List<int> shipResourceAmountList = new List<int>();
-    [SerializeField] GameObject shipResourceManagerUIPrefab;
-    private ShipResourceManagerUI shipResourceManagerUI;
+    public Dictionary<ShipResource, int> shipResources = new Dictionary<ShipResource, int>();
 
-    // For calculating hourly consumption
-    private SoulsManager soulsManager;
-    private float previousFuelAmount;
-    private float previousSuppliesAmount;
-
-    // Currently used only for UI, but there is option to micro-optimize here with constant resource consumption rate
-    private float fuelAmount;
-    private float foodAmount;
-    private float suppliesAmount;
-    private float joyAmount;
-    private float orderAmount;
-
-    private void Start()
-    {
-        if(shipResourceManagerUIPrefab != null)
-        { 
-            GameObject tmpGO = GameObject.Instantiate(shipResourceManagerUIPrefab);
-            shipResourceManagerUI = tmpGO.GetComponent<ShipResourceManagerUI>();
-        }
-        else
-        {
-            Debug.Log("shipResourceManagerUIPrefab required!");
-            gameObject.SetActive(false);
-        }
-
-        soulsManager = GetComponent<SoulsManager>();
-    }
-    private void Update()
-    {
-        // Somewhat inefficient, but hey we are only doing this once every updateRate
-        if(Globals.gameTime >= nextTime)
-        {
-            fuelAmount = 0f;
-            foodAmount = 0f;
-            suppliesAmount = 0f;
-            joyAmount = 0f;
-            orderAmount = 0f;
-
-            shipResourceList.Clear();
-            shipResourceAmountList.Clear();
-            nextTime += updateRate;
-            foreach(ShipResource shipResource in shipResources.Keys)
-            {
-                shipResourceList.Add( shipResource );
-                shipResourceAmountList.Add(shipResources[shipResource]);
-
-                switch(shipResource.resourceType)
-                {
-                    case (ResourceType.Fuel):
-                        fuelAmount += shipResources[shipResource];
-                        break;
-                    case (ResourceType.Food):
-                        foodAmount += shipResources[shipResource];
-                        break;
-                    case (ResourceType.Supplies):
-                        suppliesAmount += shipResources[shipResource];
-                        break;
-                }
-            }
-
-            float hourlyFuelUse = Globals.dayInSeconds * (previousFuelAmount - fuelAmount)/updateRate;
-            float hourlySuppliesUse = Globals.dayInSeconds * (previousSuppliesAmount - fuelAmount) / updateRate;
-            float hourlyFoodUse = soulsManager.GetDailyFoodChange() / 24f;
-            shipResourceManagerUI.UpdateUI(fuelAmount,hourlyFuelUse, foodAmount, hourlyFoodUse, suppliesAmount, hourlySuppliesUse, joyAmount, orderAmount);
-
-            previousFuelAmount = fuelAmount;
-            previousSuppliesAmount = suppliesAmount;
-        
-        }
-    }
     public void addResource(ShipResource shipResource, int amount)
     {
         if (shipResources.ContainsKey(shipResource))
         {
-            Debug.Log("added resources");
+            Debug.Log("added resources" + shipResource.resourceType);
             shipResources[shipResource] += amount;
         }
         else
         {
-            Debug.Log("added new resources");
+            Debug.Log("added new resources" + shipResource.resourceType);
             shipResources.Add(shipResource, amount);
         }
     }
@@ -135,18 +60,24 @@ public class ShipResourceManager : MonoBehaviour
         foreach (ShipResource shipResource in shipResources.Keys)
         {
             if (shipResource.resourceType == usedResourceType)
+            { 
                 usableResources.Add(shipResource);
+            }
+            Debug.Log(shipResource.resourceType + " " + usedResourceType);
         }
-        
+
+        Debug.Log("amount left " + amountLeft);
+
         while (amountLeft > 0)
         {
+            Debug.Log("usableResource.count " + usableResources.Count);
             if (usableResources.Count < 1)
                 return false;
 
             int dividedAmount = amountLeft / usableResources.Count;
-
+            Debug.Log("dividedAmount " + dividedAmount);
             // if amountLeft has not changed since last cycle, it means we are out of resources
-            if(prevAmountLeft != null && prevAmountLeft != amountLeft)
+            if (prevAmountLeft != null && prevAmountLeft != amountLeft)
             {
                 foreach (ShipResource usedResource in usableResources)
                 {
@@ -158,7 +89,7 @@ public class ShipResourceManager : MonoBehaviour
             prevAmountLeft = amountLeft;
 
             foreach (ShipResource usedResource in usableResources)
-            {
+            {                
                 if(shipResources[usedResource] <= dividedAmount)
                 {
                     amountLeft -= shipResources[usedResource];
@@ -168,7 +99,7 @@ public class ShipResourceManager : MonoBehaviour
                 {                
                     amountLeft -= dividedAmount;
                     shipResources[usedResource] -= dividedAmount;
-                }
+                }               
             }
         }
 

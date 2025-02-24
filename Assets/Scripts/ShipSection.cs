@@ -22,7 +22,7 @@ public class ShipSection : MonoBehaviour
     [SerializeField] protected bool enableRequest = false;
     protected float nextTickTime = 0f;
 
-    void Start()
+    virtual public void Start()
     {
         soulsManager = GetComponentInParent<SoulsManager>();
         if (soulsManager == null)
@@ -37,6 +37,8 @@ public class ShipSection : MonoBehaviour
             gameObject.SetActive(false);
             Debug.Log("No ShipResourceManager found in parent!");
         }
+
+        Debug.Log("base class executed");
     }
 
     // Update is called once per frame
@@ -66,7 +68,7 @@ public class ShipSection : MonoBehaviour
         if (enableRequest && shipResourceManager.checkResourceAvailability(consumedResourceType, consumptionAmount))
         {
             enableRequest = false;
-            nextTickTime = Globals.gameTime + consumptionRate;
+            nextTickTime = Globals.instance.gameTime + consumptionRate;
             return ShipSectionState.enabled;
         }
 
@@ -75,7 +77,7 @@ public class ShipSection : MonoBehaviour
     ShipSectionState OutOfResourcesState()
     {
         bool resourcesAvailable = false;
-        if (Globals.gameTime >= nextTickTime)
+        if (Globals.instance.gameTime >= nextTickTime)
         {
             nextTickTime += consumptionRate;
             resourcesAvailable = shipResourceManager.useResource(consumedResourceType, consumptionAmount);
@@ -90,7 +92,7 @@ public class ShipSection : MonoBehaviour
     virtual public ShipSectionState EnabledState()
     {
         bool resourcesAvailable = true;
-        if (Globals.gameTime >= nextTickTime)
+        if (Globals.instance.gameTime >= nextTickTime)
         {
             nextTickTime += consumptionRate;
             resourcesAvailable = shipResourceManager.useResource(consumedResourceType, consumptionAmount);                      
