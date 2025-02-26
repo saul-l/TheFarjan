@@ -9,15 +9,11 @@ public class PortUI : MonoBehaviour
     [SerializeField] Canvas canvas;
     [SerializeField] CanvasManager canvasManager = null;
     Port port;
-    
-    void Awake()
-    {
-        canvas.enabled = false;
-        Debug.Log("canvas " + canvas.name);
-        canvasManager.AddCanvasToList(canvas);
-    }
+
     void Start()
     {
+        canvas.enabled = false;
+        canvasManager.AddCanvasToList(canvas);
         port = GetComponent<Port>();
     }
 

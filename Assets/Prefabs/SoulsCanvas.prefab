@@ -791,6 +791,7 @@ MonoBehaviour:
   scrollViewContent: {fileID: 47049261318426249}
   soulPanelPrefab: {fileID: 877470937685111697, guid: 3162029e784a2ed43af4003c9fe9af6c, type: 3}
   closeButton: {fileID: 2255854312735801621}
+  canvasManager: {fileID: 11400000, guid: abc77f92474cd5a47a93cdea50cca329, type: 2}
 --- !u!1 &9154732477621628240
 GameObject:
   m_ObjectHideFlags: 0

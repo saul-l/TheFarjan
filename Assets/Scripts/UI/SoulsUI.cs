@@ -8,10 +8,10 @@ public class SoulsUI : MonoBehaviour
     [SerializeField] GameObject scrollViewContent;
     [SerializeField] GameObject soulPanelPrefab;
     [SerializeField] Button closeButton;
-
+    [SerializeField] CanvasManager canvasManager;
     GameObject[] soulPanelInstances = new GameObject[0];
     Canvas canvas;
-
+    
     const float scrollViewContentStartHeight = 450;
     const float panelXStartPos = 300f;
     const float panelYStartPos = -220f;
@@ -22,10 +22,14 @@ public class SoulsUI : MonoBehaviour
     {
         canvas = GetComponent<Canvas>();
         canvas.enabled = false;
-        closeButton.onClick.AddListener(UIManagerSingleton.instance.ToggleSoulsCanvas);
-        UIManagerSingleton.instance.soulsCanvas = canvas;
+        canvasManager.AddCanvasToList(canvas);
+        closeButton.onClick.AddListener(()=>canvasManager.DisableCanvas(canvas));
     }
 
+    public void EnableCanvas()
+    {
+        canvasManager.EnableCanvas(canvas);
+    }
     public void UpdateSoulsUI(List<Soul> soulList)
     {
         for (int i = 0; i < soulPanelInstances.Length; i++)
