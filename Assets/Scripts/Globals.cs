@@ -6,12 +6,12 @@ public class Globals : MonoBehaviour
     public static Globals instance;
 
     public float gameTime;
+    public float dayGameTime;
     public bool paused;
     [SerializeField] private float currentGameDays;
     [SerializeField] private float currentGameTime;
     [SerializeField] private float currentGameHours;
     [SerializeField] private float currentMinutes;
-
     public float gameSpeed = 10f;
     float prevGameSpeed = 1f;
 
@@ -66,6 +66,7 @@ public class Globals : MonoBehaviour
         currentGameDays = Mathf.Floor(gameTime / dayInMinutes);
         currentGameHours = Mathf.Floor((gameTime/60)%24);
         currentMinutes = Mathf.Floor(gameTime % 60);
+        dayGameTime = gameTime-(currentGameDays*dayInMinutes);
 
         if (currentGameDays > prevGameDays && dayChangeDelegate != null)
         {

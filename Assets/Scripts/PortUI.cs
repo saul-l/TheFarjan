@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,15 +7,16 @@ public class PortUI : MonoBehaviour
     [SerializeField] Button embarkButton;
     [SerializeField] Button[] GroupButton;    
     [SerializeField] Button[] DealButton;
+
     [SerializeField] Canvas canvas;
     [SerializeField] CanvasManager canvasManager = null;
     Port port;
 
     void Start()
     {
+        port = gameObject.GetComponent<Port>();
         canvas.enabled = false;
         canvasManager.AddCanvasToList(canvas);
-        port = GetComponent<Port>();
     }
 
     public void PortEventStart()
@@ -30,7 +32,27 @@ public class PortUI : MonoBehaviour
         foreach (Button button in GroupButton)
         {
             button.interactable = !port.embarkEnabled;
-        }        
+        }
+
+        for (int i = 0; i < GroupButton.Length; i++)
+        {
+            string buttonText = "";
+            buttonText += "Passengers " + port.groupList[i].Count + System.Environment.NewLine;
+            if (port.groupRewardList.Count != 0)
+            {
+                for (int j = 0; j < port.groupRewardList[i].Count; j++)
+                {
+                    buttonText += port.groupRewardList[i][j].resourceName + " " + port.groupRewardAmountList[i][j] + System.Environment.NewLine;
+                }
+            }
+            ChangeButtonText(GroupButton[i], buttonText);
+        }
+        /*
+        for (int i = 0;i < DealButton.Length; i++)
+        {
+
+        }
+        */
     }
     public void SelectGroup(int groupNumber)
     {
@@ -53,5 +75,11 @@ public class PortUI : MonoBehaviour
     {
         port.Embark();
         DisableCanvas();
-    }    
+    }
+    
+    private void ChangeButtonText(Button button, string text)
+    {
+        TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+        buttonText.text = text;
+    }
 }

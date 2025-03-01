@@ -36,8 +36,6 @@ public class ShipSection : MonoBehaviour
             gameObject.SetActive(false);
             Debug.Log("No ShipResourceManager found in parent!");
         }
-
-        Debug.Log("base class executed");
     }
 
     // Update is called once per frame

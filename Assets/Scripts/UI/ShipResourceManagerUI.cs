@@ -70,10 +70,10 @@ public class ShipResourceManagerUI : MonoBehaviour
                 }
             }
 
-            float hourlyFuelUse = Globals.dayInMinutes * (previousFuelAmount - fuelAmount) / updateRate;
-            float hourlySuppliesUse = Globals.dayInMinutes * (previousSuppliesAmount - fuelAmount) / updateRate;
-            float hourlyFoodUse = soulsManager.GetDailyFoodChange() / 24f;
-            UpdateUI(fuelAmount, hourlyFuelUse, foodAmount, hourlyFoodUse, suppliesAmount, hourlySuppliesUse, joyAmount, orderAmount);
+            float dailyFuelUse = (Globals.dayInMinutes-Globals.instance.dayGameTime) * ((previousFuelAmount - fuelAmount) / updateRate);
+            float dailySuppliesUse = (Globals.dayInMinutes-Globals.instance.dayGameTime) * ((previousSuppliesAmount - fuelAmount) / updateRate);
+            float dailyFoodUse = ((Globals.dayInMinutes-Globals.instance.dayGameTime)/Globals.dayInMinutes)*soulsManager.GetDailyFoodChange();
+            UpdateUI(fuelAmount, dailyFuelUse, foodAmount, dailyFoodUse, suppliesAmount, dailySuppliesUse, joyAmount, orderAmount);
 
             previousFuelAmount = fuelAmount;
             previousSuppliesAmount = suppliesAmount;
@@ -81,12 +81,12 @@ public class ShipResourceManagerUI : MonoBehaviour
         }
     }
 
-    public void UpdateUI(float fuel, float hourlyFuel, float food, float hourlyFood, float supplies, float hourlySupplies, float joy, float order)
+    public void UpdateUI(float fuel, float hourlyFuel, float food, float dailyFood, float supplies, float hourlySupplies, float joy, float order)
     {
         // get amounts
-        fuelText.text = fuelString + " " + UIUtils.ResourceString(fuel) + System.Environment.NewLine + UIUtils.SingleDigit(hourlyFuel) + " / hour";
-        foodText.text = foodString + " " + UIUtils.ResourceString(food) + System.Environment.NewLine + UIUtils.SingleDigit(hourlyFood) + " / hour";
-        suppliesText.text = suppliesString + " " + UIUtils.ResourceString(supplies) + System.Environment.NewLine + UIUtils.SingleDigit(hourlySupplies) + " / hour";
+        fuelText.text = fuelString + " " + UIUtils.ResourceString(fuel) + System.Environment.NewLine + UIUtils.ResourceString(hourlyFuel) + " O/A";
+        foodText.text = foodString + " " + UIUtils.ResourceString(food) + System.Environment.NewLine + UIUtils.ResourceString(food+dailyFood) + " O/A";
+        suppliesText.text = suppliesString + " " + UIUtils.ResourceString(supplies) + System.Environment.NewLine + UIUtils.ResourceString(hourlySupplies) + " O/A";
         joyText.text = joyString + " " + UIUtils.ResourceString(joy);
         orderText.text = orderString + " " + UIUtils.ResourceString(order);
         timeText.text = Globals.instance.dayString;

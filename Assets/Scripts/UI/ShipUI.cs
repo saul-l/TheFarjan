@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class ShipUI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] Canvas canvas;
+    [SerializeField] CanvasManager canvasManager;
+
+    private void Start()
     {
-        
+        canvasManager.AddCanvasToList(canvas);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CloseCanvas()
     {
-        
+
     }
 }

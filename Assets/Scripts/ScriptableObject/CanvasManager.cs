@@ -6,7 +6,8 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "CanvasManager", menuName = "Scriptable Objects/CanvasManager")]
 public class CanvasManager : ScriptableObject
 {
-    [NonSerialized]List<Canvas> canvasList = new List<Canvas>();
+    [NonSerialized] List<Canvas> canvasList = new List<Canvas>();
+    [NonSerialized] List<Canvas> prevOpenList = new List<Canvas>();
 
     public void AddCanvasToList (Canvas canvas)
     {
@@ -14,12 +15,19 @@ public class CanvasManager : ScriptableObject
     }
     public void EnableCanvas(Canvas enabledCanvas)
     {
+        prevOpenList.Clear();
         foreach (Canvas canvas in canvasList)
         {
             if (canvas != enabledCanvas)
+            {
+                if (canvas.enabled)
+                    prevOpenList.Add(canvas);
                 canvas.enabled = false;
+            }
             else
+            { 
                 canvas.enabled = true;
+            }
         }
     }
 
@@ -29,6 +37,9 @@ public class CanvasManager : ScriptableObject
         {
             if (canvas == disabledCanvas)
                 canvas.enabled = false;
+
+            else if(prevOpenList.Contains(canvas))
+                canvas.enabled = true;
         }
     }
 }
